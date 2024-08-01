@@ -17,7 +17,11 @@ git clone https://github.com/friedenberg/dotfiles ~/.dotfiles
 
 # build nix dotfiles stuff
 pushd ~/.dotfiles
-nix-build
+mkdir -p ~/.config/nix
+cat - > ~/.config/nix/nix.conf <<-EOM
+experimental-features = nix-command flakes
+EOM
+nix build
 bin_result="$(pwd)/result/bin"
 bin_fish="$(readlink "$bin_result/fish")"
 export PATH="$bin_result:$PATH"
